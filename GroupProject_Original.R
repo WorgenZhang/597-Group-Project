@@ -1,24 +1,10 @@
-#' Methods for partially matched samples
-#'
-#' This function allows you to use p-values pooling approach or modified test statistics approach to deal with partially matched samplles.
-#' @param x a (non-empty) numeric vector of data values in tumor samples
-#' @param y a (non-empty) numeric vector of data values in normal samples
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @param method a number indicating which method to use for partially mathced samples, 1 is modified t-statistic of Kim, 2 is corrected Z-test of Looney and Jones, 3 is MLE based test of Ekbohm under homoscedasticity, 4 is MLE based test of Lin and Stivers under heteroscedasticity, 5 is weighted Z-test combination (default).
-#' @param conf.level confidence level of the interval
-#' @param data an optional matrix or data frame containing the variables in the formula formula. By default the variables are taken from environment(formula).
-#' @export
-#' @examples
-#' x=c(0,1,2,3,NA,NA,NA,9)
-#' y=c(3,9,NA,NA,4,5,NA,NA)
-#' PMS.test(x=x,y=y,method="5",alternative="two.sided")
 
 PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NULL){
   if(!is.null(data)){
     attach(data)
   }
-  na_x=which(!is.na(x)) #position for not-null tumor samples
-  na_y=which(!is.na(y)) #position for not-null normal samples
+  na_x=which(!is.na(x)) #position for non-null tumor samples
+  na_y=which(!is.na(y)) #position for non-null normal samples
   n_1=intersect(na_x,na_y) #position for paired samples
   n_2=setdiff(na_x,na_y) #position for tumor unmatched samples
   n_3=setdiff(na_y,na_x) #position for normal unmatched sample
@@ -149,4 +135,22 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
     detach(data)
   }
 }
+x=c(0,1,2,3,NA,NA,NA,9)
+y=c(3,9,NA,NA,4,5,NA,NA)
+PMS.test(x=x,y=y,method="5",alternative="two.sided")
 
+#for method 4
+set.seed(123)
+rho <- 0.5
+s1 = s2 <- sqrt(2)
+mu1 <- 2
+mu2 <- -2
+U <- rnorm(50)
+V <- rnorm(50)
+X <- mu1 + s1*U
+Y <- mu2 + s2*(rho*U + sqrt(1 - rho^2)*V)
+data1=data.frame(X,Y)
+data1[1,1]=NA
+data1[2,2]=NA
+data1[3,1]=NA
+data1[4,2]=NA
