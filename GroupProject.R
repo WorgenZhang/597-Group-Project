@@ -7,6 +7,7 @@
 #' @param method a number indicating which method to use for partially mathced samples, 1 is modified t-statistic of Kim, 2 is corrected Z-test of Looney and Jones, 3 is MLE based test of Ekbohm under homoscedasticity, 4 is MLE based test of Lin and Stivers under heteroscedasticity, 5 is weighted Z-test combination (default).
 #' @param conf.level confidence level of the interval
 #' @param data an optional matrix or data frame containing the variables in the formula formula. By default the variables are taken from environment(formula).
+#' @return test-statistic and p-value
 #' @export
 #' @examples
 #' x=c(0,1,2,3,NA,NA,NA,9)
