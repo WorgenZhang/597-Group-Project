@@ -82,7 +82,7 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
     else if(alternative=="less"){
       pvalue=pt(ts,df=n1,lower.tail=T)
     }
-  }
+  } 
   # MLE based test of Lin and Stivers under heteroscedasticity
   else if(method=="4"){
     ST1square=var(x[n_1])
