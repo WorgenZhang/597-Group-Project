@@ -20,6 +20,9 @@ PMS.test(x, y, alternative = "two.sided", method = "5", conf.level = 0.95,
 
 \item{data}{an optional matrix or data frame containing the variables in the formula formula. By default the variables are taken from environment(formula).}
 }
+\value{
+test-statistic and p-value
+}
 \description{
 This function allows you to use p-values pooling approach or modified test statistics approach to deal with partially matched samplles.
 }
