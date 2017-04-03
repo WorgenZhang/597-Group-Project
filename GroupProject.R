@@ -2,14 +2,15 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
   if(!is.null(data)){
     attach(data)
   }
-  na_x=which(!is.na(x))
-  na_y=which(!is.na(y))
-  n_1=intersect(na_x,na_y)
-  n_2=setdiff(na_x,na_y)
-  n_3=setdiff(na_y,na_x)
+  na_x=which(!is.na(x)) #position for not-null tumor samples
+  na_y=which(!is.na(y)) #position for not-null normal samples
+  n_1=intersect(na_x,na_y) #position for paired samples
+  n_2=setdiff(na_x,na_y) #position for tumor unmatched samples
+  n_3=setdiff(na_y,na_x) #position for normal unmatched sample
   n1=length(n_1)
   n2=length(n_2)
   n3=length(n_3)
+  # modified t-statistic of Kim
   if(method=="1"){
     D=x[n_1]-y[n_1]
     nH=2/(1/n2+1/n3)
@@ -24,6 +25,7 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
       pvalue=pnorm(ts,lower.tail=T)
     }
   }
+  # corrected Z-test of Looney and Jones
   else if(method=="2"){
     n12=n1+n2
     n13=n1+n3
@@ -38,6 +40,7 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
       pvalue=pnorm(ts,lower.tail=T)
     }
   }
+  # MLE based test of Ekbohm under homoscedasticity
   else if(method=="3"){
     ST1square=var(x[n_1])
     SN1square=var(y[n_1])
@@ -65,6 +68,7 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
       pvalue=pt(ts,df=n1,lower.tail=T)
     }
   }
+  # MLE based test of Lin and Stivers under heteroscedasticity
   else if(method=="4"){
     ST1square=var(x[n_1])
     SN1square=var(y[n_1])
@@ -90,6 +94,7 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
       pvalue=pt(ts,df=n1,lower.tail=T)
     }
   }
+  # weighted Z-test combination
   else if(method=="5"){
     D=x[n_1]-y[n_1]
     n23=n2+n3
