@@ -18,8 +18,8 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
   if(!is.null(data)){
     attach(data)
   }
-  na_x=which(!is.na(x)) #position for not-null tumor samples
-  na_y=which(!is.na(y)) #position for not-null normal samples
+  na_x=which(!is.na(x)) #position for non-null tumor samples
+  na_y=which(!is.na(y)) #position for non-null normal samples
   n_1=intersect(na_x,na_y) #position for paired samples
   n_2=setdiff(na_x,na_y) #position for tumor unmatched samples
   n_3=setdiff(na_y,na_x) #position for normal unmatched sample
@@ -145,7 +145,14 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
       ts=qnorm(pvalue)
     }
   }
-  print(c(ts,pvalue))
+  #print(c(ts,pvalue))
+  cat(sprintf('%s: %f','Test-Statistic',ts))
+  cat('\n')
+  cat(sprintf('%s: %f','P-value',pvalue))    
+  cat('\n\n')
+  cat(sprintf('%s',paste('We recommend method 5, since results suggest that ',
+                        'weighting by the square root of sample size under the heteroscedascticity ', 
+                         'assumption is robust and performs well in various scenarios.',sep='')))
   if(!is.null(data)){
     detach(data)
   }
