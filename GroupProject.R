@@ -1,18 +1,41 @@
 #' Methods for partially matched samples
 #'
-#' This function allows you to use p-values pooling approach or modified test statistics approach to deal with partially matched samplles.
+#' This function allows you to use weighted z-test or modified test statistics approach to deal with partially matched samples.
 #' @param x a (non-empty) numeric vector of data values in tumor samples
 #' @param y a (non-empty) numeric vector of data values in normal samples
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @param method a number indicating which method to use for partially mathced samples, 1 is modified t-statistic of Kim, 2 is corrected Z-test of Looney and Jones, 3 is MLE based test of Ekbohm under homoscedasticity, 4 is MLE based test of Lin and Stivers under heteroscedasticity, 5 is weighted Z-test combination (default).
-#' @param conf.level confidence level of the interval
+#' @param method method which is implemented for partially matched samples, "modified.t" is modified t-statistic of Kim, "corrected.z" is corrected Z-test of Looney and Jones, "MLE.homo" is MLE based test of Ekbohm under homoscedasticity, "MLE.hetero" is MLE based test of Lin and Stivers under heteroscedasticity, "weighted.z" is weighted Z-test combination (default).
 #' @param data an optional matrix or data frame containing the variables in the formula formula. By default the variables are taken from environment(formula).
-#' @return test-statistic and p-value
+#' @details 
+#' Partially matched samples can be viewd as data genereated from two experiemntal designs: (i) n1 mathced 
+#' pairs, and (ii) independent groups with n2 and n3 per group, where both designs intend to estimate the 
+#' same parameter. 
+#' 
+#' Here, we implement modified test statistics approach or weighted Z-test for partially mateched samples.
+#' According to the False Discovery Rate (FDR), False Non-discovery Rate (FNR), and receiver operating characteristic curve (ROC),
+#' the results suggest that weighting by the square root of sample size under the heteroscedascticity (weigthed z-test) is robust and performs well among these five methods. 
+#' 
+#' See \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3717400/} for more details.
+#' 
+#' To see the 'description file', please click the 'Index' at the bottom of this page.
+#' @return \code{ts}: the value of the test statistic
+#' @return \code{pvalue}: the p-value for the test
 #' @export
 #' @examples
-#' x=c(0,1,2,3,NA,NA,NA,9)
-#' y=c(3,9,NA,NA,4,5,NA,NA)
-#' PMS.test(x=x,y=y,method="5",alternative="two.sided")
+#' ## Example 1: generate random normal data
+#' x = rnorm(100,0,1)
+#' y = rnorm(100,0.5,1)
+#' x.with.na = c(x[1:20],NA,x[21:50],NA,NA,NA,x[51:100])
+#' y.with.na = c(NA,NA,y[1:80],NA,y[81:100],NA)
+#' PMS.test(x=x.with.na,y=y.with.na,method="weighted.z",alternative="two.sided")
+#' 
+#' ## Example 2: a dataset with missing values
+#' library(datasets)
+#' data<-matrix(data=presidents,30,4,byrow = FALSE)
+#' data1<-data.frame(data)
+#' x<-data1$X1
+#' y<-data1$X4
+#' PMS.test(x=x,y=y,method="modified.t",alternative="greater")
 
 PMS.test=function(x,y,alternative="two.sided",method="weighted.z",data=NULL){
   if(!is.null(data)){
@@ -160,12 +183,11 @@ PMS.test=function(x,y,alternative="two.sided",method="weighted.z",data=NULL){
     cat(sprintf('     %s',"Weighted Z-test Combination"))
     cat('\n\n')
   }
-  #print(c(ts,pvalue))
   cat(sprintf('%s: %f','Test-Statistic',ts))
   cat('\n')
   cat(sprintf('%s: %f','P-value',pvalue))    
   cat('\n\n')
-  cat(sprintf('%s',paste('We recommend method 5, since results suggest that ',
+  cat(sprintf('%s',paste('## We recommend weighted z-test combination method, since results suggest that ',
                         'weighting by the square root of sample size under the heteroscedascticity ', 
                          'assumption is robust and performs well in various scenarios.',sep='')))
   if(!is.null(data)){
