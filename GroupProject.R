@@ -14,7 +14,7 @@
 #' y=c(3,9,NA,NA,4,5,NA,NA)
 #' PMS.test(x=x,y=y,method="5",alternative="two.sided")
 
-PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NULL){
+PMS.test=function(x,y,alternative="two.sided",method="weighted.z",data=NULL){
   if(!is.null(data)){
     attach(data)
   }
@@ -27,7 +27,7 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
   n2=length(n_2)
   n3=length(n_3)
   # modified t-statistic of Kim
-  if(method=="1"){
+  if(method=="modified.t"){
     D=x[n_1]-y[n_1]
     nH=2/(1/n2+1/n3)
     ts=(n1*mean(D)+nH*(mean(x[n_2])-mean(y[n_3])))/sqrt(n1*var(D)+nH^2*(var(y[n_3])/n3+var(x[n_2])/n2))
@@ -40,9 +40,12 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
     else if(alternative=="less"){
       pvalue=pnorm(ts,lower.tail=T)
     }
+    cat('\n')
+    cat(sprintf('     %s',"Modified t-statistic of Kim"))
+    cat('\n\n')
   }
   # corrected Z-test of Looney and Jones
-  else if(method=="2"){
+  else if(method=="corrected.z"){
     n12=n1+n2
     n13=n1+n3
     ts=(mean(x[c(n_1,n_2)])-mean(y[c(n_1,n_3)]))/sqrt(var(x[c(n_1,n_2)])/n12+var(y[c(n_1,n_3)])/n13-2*n1*cov(x[n_1],y[n_1])/(n12*n13))
@@ -55,9 +58,12 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
     else if(alternative=="less"){
       pvalue=pnorm(ts,lower.tail=T)
     }
+    cat('\n')
+    cat(sprintf('      %s',"Corrected Z-test of Looney and Jonesm"))
+    cat('\n\n')
   }
   # MLE based test of Ekbohm under homoscedasticity
-  else if(method=="3"){
+  else if(method=="MLE.homo"){
     ST1square=var(x[n_1])
     SN1square=var(y[n_1])
     r=cov(x[n_1],y[n_1])/sqrt(ST1square*SN1square)
@@ -83,9 +89,12 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
     else if(alternative=="less"){
       pvalue=pt(ts,df=n1,lower.tail=T)
     }
+    cat('\n')
+    cat(sprintf('      %s',"MLE based test of Ekbohm under homoscedasticity"))
+    cat('\n\n')
   } 
   # MLE based test of Lin and Stivers under heteroscedasticity
-  else if(method=="4"){
+  else if(method=="MLE.hetero"){
     ST1square=var(x[n_1])
     SN1square=var(y[n_1])
     STN1=cov(x[n_1],y[n_1])
@@ -109,9 +118,12 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
     else if(alternative=="less"){
       pvalue=pt(ts,df=n1,lower.tail=T)
     }
+    cat('\n')
+    cat(sprintf('      %s',"MLE based test of Lin and Stivers under heteroscedasticity"))
+    cat('\n\n')
   }
   # weighted Z-test combination
-  else if(method=="5"){
+  else if(method=="weighted.z"){
     D=x[n_1]-y[n_1]
     n23=n2+n3
     if(alternative=="two.sided"){
@@ -144,6 +156,9 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
       pvalue=1-pnorm((sqrt(n1)*z1+sqrt(n23)*z2)/sqrt(n1+n23))
       ts=qnorm(pvalue)
     }
+    cat('\n')
+    cat(sprintf('     %s',"Weighted Z-test Combination"))
+    cat('\n\n')
   }
   #print(c(ts,pvalue))
   cat(sprintf('%s: %f','Test-Statistic',ts))
@@ -157,4 +172,5 @@ PMS.test=function(x,y,alternative="two.sided",method="5",conf.level=0.95,data=NU
     detach(data)
   }
 }
+
 
