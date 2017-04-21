@@ -1,10 +1,14 @@
 Package: pmsG6
 Title: Partially matched samples
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Version: 1.0.0
+Authors@R: c(
+           person("Fan","Zhang",, "frank08081993@gmail.com", role = c("aut","cre")),
+           person("Weifan","Han","woailm1993@yahoo.com",role="aut"),
+           person("Peishan","Han","peishan.han@stonybrook.edu",role="aut"),
+           person("Yudong","Li","yudong.li@stonybrook.edu",role="aut"),
+           person("Elizabeth","Pemberton","pembertonei@gmail.com",role="aut"))
+Description: Solve the partially matched samples using different methods.
 Depends: R (>= 3.3.2)
-License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000

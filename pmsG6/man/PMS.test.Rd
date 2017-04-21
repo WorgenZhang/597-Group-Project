@@ -4,7 +4,7 @@
 \alias{PMS.test}
 \title{Methods for partially matched samples}
 \usage{
-PMS.test(x, y, alternative = "two.sided", method = "5", conf.level = 0.95,
+PMS.test(x, y, alternative = "two.sided", method = "weighted.z",
   data = NULL)
 }
 \arguments{
@@ -16,9 +16,9 @@ PMS.test(x, y, alternative = "two.sided", method = "5", conf.level = 0.95,
 
 \item{method}{a number indicating which method to use for partially mathced samples, 1 is modified t-statistic of Kim, 2 is corrected Z-test of Looney and Jones, 3 is MLE based test of Ekbohm under homoscedasticity, 4 is MLE based test of Lin and Stivers under heteroscedasticity, 5 is weighted Z-test combination (default).}
 
-\item{conf.level}{confidence level of the interval}
-
 \item{data}{an optional matrix or data frame containing the variables in the formula formula. By default the variables are taken from environment(formula).}
+
+\item{conf.level}{confidence level of the interval}
 }
 \value{
 test-statistic and p-value
