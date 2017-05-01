@@ -1,14 +1,23 @@
-Package: pmsG6
-Title: Partially matched samples
+Package: PMSgroup6
+Title: Partially Matched Sample Tests
 Version: 1.0.0
 Authors@R: c(
-           person("Fan","Zhang",, "frank08081993@gmail.com", role = c("aut","cre")),
-           person("Weifan","Han","woailm1993@yahoo.com",role="aut"),
+           person("Weifan","Han",,"woailm1993@yahoo.com",role=c("aut","cre")),
+           person("Fan","Zhang","frank08081993@gmail.com",role="aut"),
            person("Peishan","Han","peishan.han@stonybrook.edu",role="aut"),
            person("Yudong","Li","yudong.li@stonybrook.edu",role="aut"),
            person("Elizabeth","Pemberton","pembertonei@gmail.com",role="aut"))
-Description: Solve the partially matched samples using different methods.
-Depends: R (>= 3.3.2)
+Description: Performs testing of partially matched sample data with different methods.
+Depends: R (>= 3.3.3)
+License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+Packaged: 2017-04-30 05:47:31 UTC; weifanhan
+Author: Weifan Han [aut, cre],
+  Fan frank08081993@gmail.com Zhang [aut],
+  Peishan peishan.han@stonybrook.edu Han [aut],
+  Yudong yudong.li@stonybrook.edu Li [aut],
+  Elizabeth pembertonei@gmail.com Pemberton [aut]
+Maintainer: Weifan Han <woailm1993@yahoo.com>

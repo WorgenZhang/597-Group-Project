@@ -1,8 +1,8 @@
 library('devtools')
 library('roxygen2')
-setwd('pmsG6')
+setwd('PMSgroup6')
 document()
 setwd('..')
-install('pmsG6')
+install('PMSgroup6')
 ?PMS.test
 
